@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template
 import requests
 from datetime import datetime
+import os
 
 app = Flask(__name__)
 
@@ -34,8 +35,8 @@ def index():
                                    wind_speed=wind_speed)
     return render_template("index.html")
 
-# 👇 This is the handler for Vercel
 def handler(request, context):
     return app(request.environ, start_response=context.start_response)
 
-app.run(debug=True)
+app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
+
